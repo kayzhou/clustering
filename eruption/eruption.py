@@ -4,6 +4,9 @@ __author__ = 'Kay'
 import mysql_handler
 import json
 import numpy as np
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 # json获得（第一个）最大key
 # 实验找到热点事件的最简单的方法 v1.0
@@ -60,7 +63,7 @@ def weibo_mean_max():
         count += 1
         print "count:", count
         keyword = row[0]
-
+        print keyword
         # 以15分钟为粒度
         SQL = "select count_15 from keyword_weibo_count_copy where keyword='%s'" % (keyword)
         cur.execute(SQL)
@@ -72,7 +75,8 @@ def weibo_mean_max():
 
         mean = get_dict_mean(dict_index_value)
         index, max = get_dict_index_max(dict_index_value)
-        fi.write(keyword + '\t' + mean + '\t' + index + '\t' + max + '\n')
+        fi.write(keyword + '\t' + str(mean) + '\t' + str(index) + '\t' + str(max) + '\n')
+        fi.flush()
     fi.close()
     con.close()
 
